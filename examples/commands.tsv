@@ -1,0 +1,32 @@
+[download]
+Multi-threaded download	aria2c -x16 -s16 URL
+Resume / batch from a file	aria2c -c -i urls.txt
+Torrent or magnet link	aria2c 'magnet:?xt=urn:btih:...'
+Save to a specific dir with a name	aria2c -d ~/Downloads -o file.iso URL
+Video site (YouTube / Bilibili)	yt-dlp URL
+List available formats	yt-dlp -F URL
+Audio only, convert to mp3	yt-dlp -x --audio-format mp3 URL
+
+[git]
+Undo last commit, keep changes	git reset --soft HEAD~1
+Amend the last commit	git commit --amend --no-edit
+See what is staged	git diff --cached --stat
+Push a new branch and track it	git push -u origin HEAD
+Find which commit broke a line	git log -S 'some string' --oneline
+
+[files]
+Size of a directory, sorted	du -sh * | sort -h
+Find files newer than a day	find . -mtime -1 -type f
+Replace text in place	rg -l 'old' | xargs sed -i 's/old/new/g'
+Extract any archive	7z x file.zip
+
+[system]
+Failed units	systemctl --failed
+Logs of one unit	journalctl -u UNIT -e
+Disk usage	df -h; du -sh ~/* | sort -h
+Who listens on a port	ss -ltnp | grep PORT
+
+[network]
+Check the proxy is working	curl -q -4 --noproxy '*' -o /dev/null -w '%{http_code}\n' https://www.google.com
+Public IP	curl -q -4 --noproxy '*' https://api.ip.sb/ip
+DNS lookup	dig +short example.com

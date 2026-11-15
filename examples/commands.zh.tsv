@@ -1,0 +1,32 @@
+[下载]
+多线程下载单个文件	aria2c -x16 -s16 URL
+断点续传 / 批量	aria2c -c -i urls.txt
+磁力 / BT	aria2c 'magnet:?xt=urn:btih:...'
+下到指定目录并改名	aria2c -d ~/Downloads -o file.iso URL
+视频站点（YouTube / B 站）	yt-dlp URL
+先看有哪些清晰度	yt-dlp -F URL
+只下音频转 mp3	yt-dlp -x --audio-format mp3 URL
+
+[git]
+撤销上一次提交（保留改动）	git reset --soft HEAD~1
+修改上一次提交信息	git commit --amend --no-edit
+看暂存区改了什么	git diff --cached --stat
+推新分支并建立跟踪	git push -u origin HEAD
+找哪次提交改过某个字符串	git log -S 'some string' --oneline
+
+[文件]
+目录大小排序	du -sh * | sort -h
+找一天内改过的文件	find . -mtime -1 -type f
+批量替换文本	rg -l 'old' | xargs sed -i 's/old/new/g'
+解压任意压缩包	7z x file.zip
+
+[系统]
+失败的单元	systemctl --failed
+看某个服务的日志	journalctl -u UNIT -e
+磁盘占用	df -h; du -sh ~/* | sort -h
+谁占了端口	ss -ltnp | grep PORT
+
+[网络]
+测代理是否生效（期望 200）	curl -q -4 --noproxy '*' -o /dev/null -w '%{http_code}\n' https://www.google.com
+本机出口 IP	curl -q -4 --noproxy '*' https://api.ip.sb/ip
+DNS 解析	dig +short example.com
