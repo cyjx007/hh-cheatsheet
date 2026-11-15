@@ -64,7 +64,8 @@ nix profile install github:cyjx007/hh-cheatsheet
 ```bash
 hh                  # 两级菜单
 hh aria2            # 全局搜索（不分层）
-hh -l               # 列出全部（可以接 grep / less）
+hh -l               # 列出全部（分组：说明一行，命令缩进一行）
+hh -lc              # 列出全部（一行一条，给 grep 用）
 hh -c 下载           # 只打印某个分类
 hh -p               # 只打印选中的命令，不复制
 hh -V               # 版本

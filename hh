@@ -8,14 +8,15 @@
 # 用法：
 #   hh                 两级菜单：分类 → 命令
 #   hh <关键词>        全局搜索（不分层，直接搜所有条目）
-#   hh -l              列出全部条目（给 grep / less 用）
+#   hh -l              列出全部（分组两行：说明 / 缩进的命令）
+#   hh -lc             列出全部（一行一条，给 grep 用）
 #   hh -c <分类>       只打印某个分类（fzf 预览用这个）
 #   hh -p              只打印选中的命令，不复制
 #   hh -h / -V         帮助 / 版本
 
 set -uo pipefail
 
-VERSION="0.2.0"
+VERSION="0.2.1"
 SELF_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 
 # ---- 语言（只看界面提示，数据内容原样显示）----
@@ -74,7 +75,18 @@ else
   C_CAT='' C_CMD='' C_DIM='' C_RST=''
 fi
 
-print_entries() { # $1 = 分类；带分类名与否由 $2 决定
+# 每条两行：说明一行，命令缩进一行（长命令换行时也不会和说明糊在一起）
+print_grouped() { # $1 = 分类，$2 = 1 时打印分类标题
+  local cat=$1 header=${2:-0}
+  [ "$header" = 1 ] && printf '\n%s▸ %s%s\n' "$C_CAT" "$cat" "$C_RST"
+  entries "$cat" | while IFS=$'\t' read -r desc cmd; do
+    printf '  %s\n' "$desc"
+    [ -n "$cmd" ] && printf '      %s%s%s\n' "$C_CMD" "$cmd" "$C_RST"
+  done
+}
+
+# 一行一条（给 grep 用）：[分类] 说明 → 命令
+print_compact() { # $1 = 分类，$2 = 1 时带分类名
   local cat=$1 with_cat=${2:-0}
   entries "$cat" | while IFS=$'\t' read -r desc cmd; do
     if [ -n "$cmd" ]; then
@@ -138,12 +150,16 @@ while [ $# -gt 0 ]; do
       exit 0
       ;;
     -l | --list)
-      categories | while read -r c; do print_entries "$c" 1; done
+      categories | while read -r c; do print_grouped "$c" 1; done
+      exit 0
+      ;;
+    -lc | --list-compact)
+      categories | while read -r c; do print_compact "$c" 1; done
       exit 0
       ;;
     -c | --category)
       [ $# -ge 2 ] || die "-c 需要分类名（先用 hh -l 看）"
-      print_entries "$2" 0
+      print_grouped "$2" 0
       exit 0
       ;;
     -p | --print) PRINT_ONLY=1 ;;

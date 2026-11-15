@@ -78,7 +78,8 @@ Start from `examples/commands.tsv` (English) or `examples/commands.zh.tsv` (Chin
 ```bash
 hh                  # two-level menu
 hh aria2            # global search over every entry
-hh -l               # print everything (pipe to grep / less)
+hh -l               # print everything, grouped (description + indented command)
+hh -lc              # print everything, one line per entry (grep friendly)
 hh -c download      # print one category
 hh -p               # print the selection instead of copying it
 hh -V               # version
