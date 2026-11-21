@@ -92,6 +92,37 @@ hh -V               # version
 | `Esc` | back to the category list; at the top level, quit |
 | `Ctrl-C` | quit |
 
+## Discovering commands on your machine
+
+`hh` can inspect what is actually installed and help fill the sheet:
+
+```bash
+hh --scan              # every executable in $PATH (✓ = already in your sheet)
+hh --scan -m           # only commands not in the sheet yet
+hh --scan -w           # write the missing ones to ~/.local/share/hh/commands.scan.tsv
+hh --add htop          # append one command, description from its man page
+hh --from-history      # frequent bash-history commands not in the sheet yet
+```
+
+`--scan` finds commands through `$PATH` and groups them by the package that provides them
+(Nix store paths). `--add` / `--from-history -f FILE` append to `$HH_FILE`, or to a writable
+`~/.config/hh/commands.tsv`. When home-manager manages that path as a read-only symlink,
+point `-f` at the source file:
+
+```bash
+hh --add htop -f ~/nixos-config/home/hh-commands.tsv -c 系统监控
+```
+
+`--scan -w` writes a **separate** file instead of touching your sheet, so you can review it
+first:
+
+```bash
+HH_FILE=~/.local/share/hh/commands.scan.tsv hh
+```
+
+`--scan` uses GNU find (`-printf`), so it is Linux-only; on macOS install `findutils` and use
+`gfind`. `--add` / `--from-history` work anywhere.
+
 ## Why not navi / tldr?
 
 | | `hh` | `navi` | `tldr` |

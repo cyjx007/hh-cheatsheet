@@ -78,6 +78,35 @@ hh -V               # 版本
 | `Esc` | 返回上一级分类；在分类层则退出 |
 | `Ctrl-C` | 退出 |
 
+## 发现本机已装的命令
+
+`hh` 能扫一遍机器上实际装了什么，帮你把速查表补起来：
+
+```bash
+hh --scan              # $PATH 里所有可执行命令（✓ = 表里已有）
+hh --scan -m           # 只看还没收录的
+hh --scan -w           # 把未收录的写到 ~/.local/share/hh/commands.scan.tsv
+hh --add htop          # 追加一条，简介从 man 页取
+hh --from-history      # 从 bash 历史找高频且未收录的命令
+```
+
+`--scan` 通过 `$PATH` 找命令，并按提供它的包（Nix store 路径）分组。`--add` /
+`--from-history -f 文件` 默认写 `$HH_FILE`，其次是可写的 `~/.config/hh/commands.tsv`；
+如果这个路径是 home-manager 管的只读符号链接，就用 `-f` 指向源文件：
+
+```bash
+hh --add htop -f ~/nixos-config/home/hh-commands.tsv -c 系统监控
+```
+
+`--scan -w` 写的是**单独的文件**，不会动你的速查表，先看再挑：
+
+```bash
+HH_FILE=~/.local/share/hh/commands.scan.tsv hh
+```
+
+`--scan` 依赖 GNU find 的 `-printf`，所以目前只在 Linux 上可用；macOS 装 `findutils`
+后用 `gfind`。`--add` / `--from-history` 不受影响。
+
 ## 和 navi / tldr 的区别
 
 | | `hh` | `navi` | `tldr` |
