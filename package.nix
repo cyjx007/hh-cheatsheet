@@ -9,7 +9,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "hh";
-  version = "0.3.0";
+  version = "0.3.1";
 
   src = ./.;
 
@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
     install -Dm644 examples/commands.zh.tsv $out/share/hh/commands.zh.tsv
     wrapProgram $out/bin/hh \
       --prefix PATH : ${
-        lib.makeBinPath ([ fzf ] ++ lib.optionals stdenv.isLinux [ wl-clipboard xclip ])
+        lib.makeBinPath ([ fzf ] ++ lib.optionals stdenv.hostPlatform.isLinux [ wl-clipboard xclip ])
       }
     runHook postInstall
   '';

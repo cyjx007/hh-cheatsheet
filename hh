@@ -21,7 +21,7 @@
 
 set -uo pipefail
 
-VERSION="0.3.0"
+VERSION="0.3.1"
 SELF_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 
 # ---- 语言（只看界面提示，数据内容原样显示）----
