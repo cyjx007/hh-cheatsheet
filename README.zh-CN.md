@@ -1,5 +1,12 @@
 # hh — 两级命令速查
 
+[![ci](https://github.com/cyjx007/hh-cheatsheet/actions/workflows/ci.yml/badge.svg)](https://github.com/cyjx007/hh-cheatsheet/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**用 fzf 管理的两级命令菜单，专收你老是记不住的那些命令。**
+
+[English](README.md) · 中文
+
 `hh` 在终端里开一个小菜单：选分类 → 选命令 → 回车，命令就进了剪贴板。
 
 它是给**你自己**的命令用的：老是记不住的那几个参数、`nixos-rebuild` 的完整写法、某个脚本的
@@ -11,6 +18,14 @@
 命令>  多线程下载单个文件 / 断点续传 / 磁力 BT …
         ↓ 回车 → `aria2c -c -i urls.txt` 已在剪贴板
 ```
+
+## 依赖
+
+- `bash` 和 `fzf`。
+- 可选剪贴板支持：`wl-copy`（Wayland）或 `xclip`（X11）。两者都没有时，`hh`
+  只把选中的命令打印出来。
+- `--scan` 依赖带 `-printf` 的 GNU `find`，因此默认只在 Linux 上可用；macOS
+  装 `findutils` 后用 `gfind`。`--add` / `--from-history` 两个平台都能用。
 
 ## 安装
 
@@ -125,6 +140,16 @@ HH_FILE=~/.local/share/hh/commands.scan.tsv hh
 shellcheck hh      # CI 会跑
 nix build .#       # 构建
 nix run .#         # 直接从工作区运行
+```
+
+### 目录结构
+
+```text
+hh                 单文件 bash 脚本
+examples/          英文 / 中文起步速查表
+home-module.nix    Home Manager 模块（programs.hh）
+package.nix        Nix 打包（包装 fzf 与剪贴板工具）
+flake.nix          packages / overlay / homeModules 输出
 ```
 
 ## 许可

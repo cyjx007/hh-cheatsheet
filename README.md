@@ -1,5 +1,12 @@
 # hh — a two-level command cheatsheet
 
+[![ci](https://github.com/cyjx007/hh-cheatsheet/actions/workflows/ci.yml/badge.svg)](https://github.com/cyjx007/hh-cheatsheet/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**An fzf-powered, two-level menu of the commands you keep forgetting.**
+
+English · [中文](README.zh-CN.md)
+
 `hh` opens a small menu in your terminal: pick a category, pick a command, press Enter — the
 command is copied to your clipboard.
 
@@ -22,6 +29,15 @@ enough to scan; there is no tag syntax or query language to memorise.
 └────────────────────────────────────────┘
         ↓ Enter → `aria2c -c -i urls.txt` is now in your clipboard
 ```
+
+## Requirements
+
+- `bash` and `fzf`.
+- Optional clipboard support: `wl-copy` (Wayland) or `xclip` (X11). Without
+  either, `hh` prints the selected command instead of copying it.
+- `--scan` needs GNU `find` with `-printf`, so it is Linux-only out of the box.
+  On macOS install `findutils` and use `gfind`. `--add` and `--from-history`
+  work on both platforms.
 
 ## Install
 
@@ -142,6 +158,16 @@ commands **you** actually use on **this** machine.
 shellcheck hh      # CI runs this
 nix build .#       # builds the package
 nix run .#         # runs from the working tree
+```
+
+### Project layout
+
+```text
+hh                 the bash script (single file)
+examples/          English and Chinese starter sheets
+home-module.nix    Home Manager module (programs.hh)
+package.nix        Nix package (wraps fzf and clipboard tools)
+flake.nix          packages / overlay / homeModules outputs
 ```
 
 ## License
