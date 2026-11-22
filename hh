@@ -410,7 +410,8 @@ finish() { # $1 = 选中行
   fi
 }
 
-FZF_COMMON=(--height=60% --reverse --border --info=inline --pointer='▸ ')
+# --cycle：顶部再按 ↑ 直接绕到最底部，底部按 ↓ 回到顶部（长列表不用一路翻回来）
+FZF_COMMON=(--height=60% --reverse --border --info=inline --pointer='▸ ' --cycle)
 
 PRINT_ONLY=0
 query=''

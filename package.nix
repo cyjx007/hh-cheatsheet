@@ -9,7 +9,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "hh";
-  version = "0.3.1";
+  version = "0.3.2";
 
   src = ./.;
 

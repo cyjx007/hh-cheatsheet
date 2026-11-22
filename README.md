@@ -103,7 +103,7 @@ hh -V               # version
 
 | Key | Action |
 | --- | --- |
-| `↑` `↓` | move |
+| `↑` `↓` | move (wraps around: `↑` at the top jumps to the bottom) |
 | `Enter` | copy the command (or print it with `-p`) |
 | `Esc` | back to the category list; at the top level, quit |
 | `Ctrl-C` | quit |
