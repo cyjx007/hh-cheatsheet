@@ -22,3 +22,10 @@ jobs:
             experimental-features = nix-command flakes
       - run: nix build .# -L
       - run: ./result/bin/hh -V
+      # 防止再次出现「package.nix 是 0.3.2、脚本里还是 0.3.1」的版本漂移
+      - name: version 一致性（hh 脚本 vs package.nix）
+        run: |
+          script_v=$(./result/bin/hh -V | awk '{print $2}')
+          pkg_v=$(sed -n 's/^  version = "\(.*\)";/\1/p' package.nix)
+          echo "hh=$script_v package.nix=$pkg_v"
+          test "$script_v" = "$pkg_v"
